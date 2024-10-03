@@ -19,7 +19,23 @@ while (true) {
     }
 
     const operator = readline.question("Pilih Operator ( +, -, *, /, %) : ");
-    const angkaKedua = parseFloat(readline.question("Masukkan Angka Kedua: "));
+    
+    let angkaKedua = null;
+    let angkaValid = false;
+    
+    // Validasi input angka kedua, tidak boleh nol untuk pembagian atau modulus
+    while (!angkaValid) {
+        angkaKedua = parseFloat(readline.question("Masukkan Angka Kedua: "));
+        if (operator === '/' || operator === '%') {
+            if (angkaKedua === 0) {
+                console.log("Error: Pembagian dan modulus dengan nol tidak diperbolehkan. Silahkan masukkan angka kedua yang benar.");
+            } else {
+                angkaValid = true;
+            }
+        } else {
+            angkaValid = true; // Untuk operator selain / dan %, angka kedua bebas
+        }
+    }
 
     const requiredOperator = ["+", "-", "*", "/", "%"];
 
@@ -51,16 +67,8 @@ function processHasil(inputanPertama, inputanKedua, operator) {
         case "*":
             return inputanPertama * inputanKedua;
         case "/":
-            if (inputanKedua === 0) {
-                console.log("Error: Pembagian dengan nol tidak diperbolehkan.");
-                return undefined;
-            }
             return inputanPertama / inputanKedua;
         case "%":
-            if (inputanKedua === 0) {
-                console.log("Error: Modulus dengan nol tidak diperbolehkan.");
-                return undefined;
-            }
             return inputanPertama % inputanKedua;
     }
 }
